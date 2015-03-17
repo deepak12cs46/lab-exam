@@ -1,0 +1,45 @@
+
+
+TOKEN			 TOKEN TYPE
+
+
+if			 KEYWORD 
+else			 KEYWORD 
+switch			 KEYWORD 
+break			 KEYWORD 
+for			 KEYWORD 
++			  OPERATORS 
+-			  OPERATORS 
+*			  OPERATORS 
+/			  OPERATORS 
+%			  OPERATORS 
+<			  OPERATORS 
+<=			  OPERATORS 
+>			  OPERATORS 
+>=			  OPERATORS 
+==			  OPERATORS 
+!=			  OPERATORS 
+&&			  OPERATORS 
+||			  OPERATORS 
+=			  OPERATORS 
+++			  OPERATORS 
+--			  OPERATORS 
+{			  OPERATORS 
+}			  OPERATORS 
+,			  OPERATORS 
+;			  OPERATORS 
+case			 KEYWORD 
+goto			 KEYWORD 
+continue		 KEYWORD 
+while			 KEYWORD 
+do			 	 KEYWORD 
+k				 IDENTIFIER
+total_size	    	IDENTIFIER
+var_count			IDENTIFIER
+typ			IDENTIFIER
+ln			IDENTIFIER
+a			IDENTIFIER
+str			IDENTIFIER
+i			IDENTIFIER
+j			IDENTIFIER
+line_no			IDENTIFIER

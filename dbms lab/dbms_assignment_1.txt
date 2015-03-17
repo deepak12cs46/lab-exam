@@ -1,0 +1,26 @@
+create table fb_comment
+( 
+text varchar(80),
+id int not null primary key,
+post int foreign key references fb_post(id),
+type varchar(80) check (type='picture' or type='status' or type='video'),
+author int foreign key references fb_author(id)
+)
+
+create table fb_author
+( 
+name varchar(80),
+gender varchar(80) not null check (gender='MALE' or gender='FEMALE'),
+city varchar(80),
+country varchar(20) not null,
+age int check (age>15 and age<105),
+id int primary key
+)
+
+create table fb_post
+(
+text varchar(80),
+id int not null primary key,
+type varchar(20) check ( type='PICTURE' or type='STATUS' or type='VIDEO' ),
+author int references fb_author(id)
+);

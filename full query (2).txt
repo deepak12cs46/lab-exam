@@ -1,0 +1,179 @@
+create table fb_comment
+( 
+text varchar(80),
+id int not null primary key,
+post int references fb_post(id),
+type varchar(80) check (type='picture' or type='status' or type='video'),
+author int references fb_author(id)
+)
+select * from fb_comment
+create table fb_author
+( 
+name varchar(80),
+gender varchar(80) not null check (gender='MALE' or gender='FEMALE'),
+city varchar(80),
+country varchar(20) not null,
+age int check (age>15 and age<105),
+id int primary key
+)
+
+create table fb_post
+(
+text varchar(80),
+id int not null primary key,
+type varchar(20) check ( type='PICTURE' or type='STATUS' or type='VIDEO' ),
+author int references fb_author(id)
+);
+
+QUESTION 1:
+
+SELECT FB_AUTHOR.NAME
+FROM FB_AUTHOR,FB_POST
+WHERE FB_AUTHOR.ID=FB_POST.AUTHOR AND LENGTH(FB_POST.TEXT)<10
+
+QUESTION 2:
+
+select FB_AUTHOR.NAME
+FROM FB_AUTHOR,FB_POST
+WHERE FB_POST.AUTHOR=FB_AUTHOR.ID
+GROUP BY FB_POST.AUTHOR 
+HAVING COUNT(FB_POST.AUTHOR)>2
+
+QUESTION 3:
+METHOD - 1:::
+SELECT FB_AUTHOR.NAME,FB_AUTHOR.ID,FB_POST.TEXT,FB_POST.ID
+FROM FB_AUTHOR,FB_POST
+WHERE FB_POST.AUTHOR=FB_AUTHOR.ID
+UNION
+SELECT FB_AUTHOR.NAME,FB_AUTHOR.ID,FB_COMMENT.TEXT,FB_COMMENT.ID
+FROM FB_AUTHOR,FB_COMMENT
+WHERE FB_AUTHOR.ID=FB_COMMENT.AUTHOR
+
+QUESTION 4:
+SELECT FB_AUTHOR.NAME,FB_POST.TEXT,FB_COMMENT.TEXT
+FROM FB_POST,FB_COMMENT,FB_AUTHOR
+WHERE FB_POST.AUTHOR=FB_AUTHOR.ID AND FB_POST.ID=FB_COMMENT.POST AND FB_AUTHOR.NAME LIKE 'S%'
+
+
+Q5. 
+SELECT FB_AUTHOR.NAME,FB_AUTHOR.CITY,FB_AUTHOR.COUNTRY,FB_POST.TEXT
+FROM FB_AUTHOR,FB_POST
+WHERE FB_AUTHOR.ID=FB_POST.AUTHOR AND FB_POST.TEXT like '%you%'
+
+Q6. 
+SELECT FB_COMMENT.TEXT
+FROM FB_COMMENT,FB_POST,FB_AUTHOR
+WHERE FB_COMMENT.AUTHOR=FB_AUTHOR.ID AND FB_AUTHOR.AGE<30 AND FB_POST.ID=FB_COMMENT.POST AND 
+FB_POST.ID IN 
+(SELECT FB_POST.ID 
+FROM FB_POST,FB_AUTHOR 
+WHERE FB_POST.AUTHOR=FB_AUTHOR.ID AND FB_AUTHOR.NAME LIKE '%LEONARDO%')  
+
+Q7.
+SELECT FB_COMMENT.TEXT,FB_COMMENT.ID,FB_COMMENT.AUTHOR,FB_POST.TEXT,FB_POST.ID,FB_POST.AUTHOR
+FROM FB_COMMENT,FB_POST
+WHERE FB_POST.ID=FB_COMMENT.POST AND FB_POST.AUTHOR IN 
+( SELECT FB_AUTHOR.ID 
+FROM FB_AUTHOR
+WHERE FB_AUTHOR.CITY='KOLKATA'
+) AND FB_COMMENT.AUTHOR IN (
+SELECT FB_AUTHOR.ID
+FROM FB_AUTHOR
+WHERE FB_AUTHOR.GENDER='FEMALE')
+
+Q8.
+ALTER TABLE FB_AUTHOR
+ADD MOBILE_NUMBER INT
+
+/// TO ADD COLUMN IN TABLE 
+ALTER TABLE table_name
+ADD col_name col_data-type
+
+// TO DELETE COLUMN IN TABLE 
+ALTER TABLE table_name
+DROP COLUMN col_name 
+
+// TO CHANGE ANY VALUE EVERYWHERE IN COLUMN
+UPDATE table_name
+SET col_name=value
+
+// TO CHANGE ANY VALUE ANYWHERE IN COLUMN
+UPDATE table_name
+SET col_name=value
+WHERE condition for row
+
+select * from fb_author
+//q 8.
+alter table fb_author
+add tel_no int
+
+/// to delete a number
+alter table fb_author
+drop column tel_no
+
+
+//q7.
+select fb_comment.text,fb_comment.post,fb_author.name as comment_author,fb_author.id as comment_author_id
+from fb_comment,fb_author
+where fb_comment.author=fb_author.id and fb_author.gender='FEMALE' AND fb_comment.post in 
+(
+select fb_post.id
+from fb_author,fb_post
+where fb_post.author=fb_author.id and fb_author.city='KOLKATA')
+
+// q6.
+select fb_comment.id
+from fb_comment,fb_author,fb_post
+where fb_author.name ='LEONARDO' and fb_author.id=fb_post.author and fb_comment.post=fb_post.id and fb_comment.author in
+(
+select fb_author.id
+from fb_author
+where fb_author.age<30
+)
+
+// Q5
+select fb_author.name,fb_author.city,fb_author.country
+from fb_author,fb_post
+where fb_author.id=fb_post.author and fb_post.text like '%you%'
+
+// q4
+select fb_post.text as post,fb_comment.text as cmnt,fb_author.id as author_id,fb_post.id as post_id,fb_comment.id as cmnt_id
+from fb_author,fb_post,fb_comment
+where fb_post.id=fb_comment.post and fb_author.id=fb_post.author and fb_author.name like 'S%'
+
+// q3
+select fb_author.id as author,fb_author.name as author_name,fb_post.id
+from fb_post,fb_author
+where fb_post.author=fb_author.id
+union all
+select fb_author.id as author,fb_author.name as author_name,fb_comment.id
+from fb_comment,fb_author
+where fb_comment.author=fb_author.id
+
+
+// q2
+select fb_authors.name
+from fb_post,fb_author
+where fb_post.author=fb_author.id and count(fb_author.ID)>2
+
+/// q2 by archit
+select name,id 
+from fb_author 
+group by id,name 
+having ((select count(*) from fb_post where fb_post.author = fb_author.id) + (select count(*) from fb_comment where fb_comment.author = fb_author.id) > =4);
+
+
+///  practice for group by,, order by ,, count
+select fb_comment.text,fb_comment.post 
+from fb_comment 
+group by fb_comment.text,fb_comment.post
+having post>5
+order by fb_comment.text 
+
+
+///
+
+
+
+
+

@@ -1,0 +1,43 @@
+GRAMMER :
+E->TU
+U->+TU|#
+T->FV
+V->*FV|#
+F->(E)|i
+
+where U stands for E', V stands for T', i stands for Id and # stands for NULL
+
+Enter the string to be parsed
+
+
+
+
+STACK		INPUT		MESSAAGE
+$E		i+i*i*i+i$
+$UT		i+i*i*i+i$		E->TU
+$UVF		i+i*i*i+i$		T->FV
+$UVi		i+i*i*i+i$		F->i
+$UV		+i*i*i+i$
+$U		+i*i*i+i$		V->#
+$UT+		+i*i*i+i$		U->+TU
+$UT		i*i*i+i$
+$UVF		i*i*i+i$		T->FV
+$UVi		i*i*i+i$		F->i
+$UV		*i*i+i$
+$UVF*		*i*i+i$		V->*FV
+$UVF		i*i+i$
+$UVi		i*i+i$		F->i
+$UV		*i+i$
+$UVF*		*i+i$		V->*FV
+$UVF		i+i$
+$UVi		i+i$		F->i
+$UV		+i$
+$U		+i$		V->#
+$UT+		+i$		U->+TU
+$UT		i$
+$UVF		i$		T->FV
+$UVi		i$		F->i
+$UV		$
+$U		$		V->#
+$		$		U->#
+ACCEPT

@@ -1,0 +1,55 @@
+CREATE TABLE Friendbook_Post(
+text char(80),
+id int primary key,
+type char check(type in('video','picture','status')),
+author int references Friendbook_Author(id));
+
+CREATE TABLE Friendbook_Author(
+name char(20),
+gender char not null check(gender='male' or gender='female'),
+city char(20) not null,
+country char(20) not null,
+age int check(age>=16 and age<=105) not null,
+id int primary key);
+
+CREATE TABLE Friendbook_comment(
+text varchar(80),
+id int primary key,
+post int references Friendbook_Post(id),
+type char check(type in('video','picture','status')),
+author int references Friendbook_Author(id));
+
+insert into Friendbook_Author(name,gender,city,country,age,id) values ('ankit singh chauhan','male','durgapur','India',14,1);
+
+alter table Friendbook_Author modify gender char(6) check(gender='male' or gender='female');
+
+select * from Friendbook_Author;
+
+25/8/14
+1)find names of all authors who has a post which has length less than 10 characters long.
+SELECT name 
+  FROM Friendbook_Author,Friendbook_Post
+WHERE Friendbook_Post.text NOT LIKE '_________%' AND Friendbook_Author.id=Friendbook_Post.author;
+
+2)Find names of authors who have more than 30 posts or comments
+SELECT name FROM Friendbook_Author
+WHERE (SELECT COUNT(author)
+ FROM Friendbook_Post
+GROUP BY author
+HAVING Friendbook_Post.author=Friendbook_Author.id)>30;
+ 
+
+3)List all authors as per their posts/comment count(descending order)
+SELECT name FROM Friendbook_Author,
+ORDER BY(SELECT COUNT(author)
+ FROM Friendbook_Post
+GROUP BY author
+HAVING Friendbook_Post.author=Friendbook_Author.id) desc
+
+4)Show posts,comments,author names for authors with names starting with 'A'
+SELECT * FROM Friendbook_Post,Friendbook_Comment,Friendbook_Author
+WHERE Friendbook_Post.author=Friendbook_Author.id AND
+5)Show location(country and city) of authors who have some posts with word 'hello
+6)Show comments posted by young fans(age<30) to the posts of author with name 'leonardo'
+7)find comments posted by femlae fans associates with posts of authors residing at durgapur,india
+8)alter friendbook_author to  add attribute 'address'
